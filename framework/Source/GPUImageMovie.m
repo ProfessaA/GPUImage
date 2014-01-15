@@ -25,6 +25,8 @@
     const GLfloat *_preferredConversion;
 
     int imageBufferWidth, imageBufferHeight;
+    
+    CVImageBufferRef _lastMovieFrame;
 }
 
 - (void)processAsset;
@@ -432,6 +434,13 @@
     return NO;
 }
 
+- (void)processLastMovieFrame
+{
+    [self processMovieFrame:_lastMovieFrame withSampleTime:kCMTimeZero];
+    CFRelease(_lastMovieFrame);
+    _lastMovieFrame = NULL;
+}
+
 - (void)processMovieFrame:(CMSampleBufferRef)movieSampleBuffer; 
 {
 //    CMTimeGetSeconds
@@ -439,6 +448,11 @@
     
     CMTime currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp(movieSampleBuffer);
     CVImageBufferRef movieFrame = CMSampleBufferGetImageBuffer(movieSampleBuffer);
+    
+    if (_lastMovieFrame) CFRelease(_lastMovieFrame);
+    _lastMovieFrame = movieFrame;
+    CFRetain(_lastMovieFrame);
+    
     [self processMovieFrame:movieFrame withSampleTime:currentSampleTime];
 }
 
