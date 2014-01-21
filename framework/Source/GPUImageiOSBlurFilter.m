@@ -100,4 +100,23 @@
     _downsampling = newValue;
 }
 
+- (void)passThrough
+{
+    saturationFilter.saturation = 1.0;
+    _downsampling = 0.0;
+    blurFilter.blurRadiusInPixels = 0.0;
+    luminanceRangeFilter.rangeReductionFactor = 0.0;
+}
+
+- (void)blurWithSaturation:(CGFloat)saturationValue
+              downsampling:(CGFloat)downsamplingValue
+        blurRadiusInPixels:(CGFloat)blurRadiusValue
+      rangeReductionFactor:(CGFloat)rangeReductionValue
+{
+    saturationFilter.saturation = saturationValue;
+    _downsampling = downsamplingValue;
+    blurFilter.blurRadiusInPixels = blurRadiusValue;
+    luminanceRangeFilter.rangeReductionFactor = rangeReductionValue;
+}
+
 @end

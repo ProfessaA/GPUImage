@@ -23,4 +23,10 @@
  */
 @property (readwrite, nonatomic) CGFloat downsampling;
 
+- (void)passThrough;
+- (void)blurWithSaturation:(CGFloat)saturation
+              downsampling:(CGFloat)downsampling
+        blurRadiusInPixels:(CGFloat)blurRadiusInPixels
+      rangeReductionFactor:(CGFloat)rangeReductionFactor;
+
 @end
