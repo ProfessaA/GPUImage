@@ -647,8 +647,8 @@
         [synchronizedMovieWriter setAudioInputReadyCallback:^{return NO;}];
     }
 
-    if ([self.delegate respondsToSelector:@selector(didCompletePlayingMovie)]) {
-        [self.delegate didCompletePlayingMovie];
+    if ([self.delegate respondsToSelector:@selector(didCompletePlayingMovie:)]) {
+        [self.delegate didCompletePlayingMovie:self];
     }
     self.delegate = nil;
 }

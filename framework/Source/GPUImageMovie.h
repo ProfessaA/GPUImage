@@ -5,10 +5,7 @@
 
 /** Protocol for getting Movie played callback.
  */
-@protocol GPUImageMovieDelegate <NSObject>
-
-- (void)didCompletePlayingMovie;
-@end
+@protocol GPUImageMovieDelegate;
 
 /** Source object for filtering movies
  */
@@ -53,5 +50,11 @@
 - (void)cancelProcessing;
 - (void)processMovieFrame:(CMSampleBufferRef)movieSampleBuffer;
 - (void)processLastMovieFrame;
+
+@end
+
+@protocol GPUImageMovieDelegate <NSObject>
+
+- (void)didCompletePlayingMovie:(GPUImageMovie *)movie;
 
 @end
