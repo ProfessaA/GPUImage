@@ -59,4 +59,7 @@
 
 - (void)didCompletePlayingMovie:(GPUImageMovie *)movie;
 
+@optional
+- (void)didProcessFrame:(GPUImageMovie *)movie;
+
 @end

@@ -292,13 +292,16 @@
     {
         while (reader.status == AVAssetReaderStatusReading && (!_shouldRepeat || keepLooping))
         {
-                [weakSelf readNextVideoFrameFromOutput:readerVideoTrackOutput];
-
+            [weakSelf readNextVideoFrameFromOutput:readerVideoTrackOutput];
+            
             if ( (readerAudioTrackOutput) && (!audioEncodingIsFinished) )
             {
                     [weakSelf readNextAudioSampleFromOutput:readerAudioTrackOutput];
             }
-
+            
+            if ([self.delegate respondsToSelector:@selector(didProcessFrame:)]) {
+                [self.delegate didProcessFrame:self];
+            }
         }
 
         if (reader.status == AVAssetWriterStatusCompleted) {
