@@ -61,5 +61,6 @@
 
 @optional
 - (void)didProcessFrame:(GPUImageMovie *)movie;
+- (void)willStartPlayingMovie:(GPUImageMovie *)movie;
 
 @end

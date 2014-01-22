@@ -170,6 +170,9 @@
 
 - (void)startProcessing
 {
+    if ([self.delegate respondsToSelector:@selector(willStartPlayingMovie:)]) {
+        [self.delegate willStartPlayingMovie:self];
+    }
     [self startProcessingFromTime:kCMTimeZero];
 }
 
@@ -299,8 +302,8 @@
                     [weakSelf readNextAudioSampleFromOutput:readerAudioTrackOutput];
             }
             
-            if ([self.delegate respondsToSelector:@selector(didProcessFrame:)]) {
-                [self.delegate didProcessFrame:self];
+            if ([weakSelf.delegate respondsToSelector:@selector(didProcessFrame:)]) {
+                [weakSelf.delegate didProcessFrame:weakSelf];
             }
         }
 
