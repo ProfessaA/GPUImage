@@ -47,6 +47,8 @@
 - (BOOL)readNextAudioSampleFromOutput:(AVAssetReaderOutput *)readerAudioTrackOutput;
 - (void)startProcessing;
 - (void)endProcessing;
+- (void)pauseProcessing;
+- (void)resumeProcessing;
 - (void)cancelProcessing;
 - (void)processMovieFrame:(CMSampleBufferRef)movieSampleBuffer;
 - (void)processLastMovieFrame;

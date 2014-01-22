@@ -29,7 +29,7 @@
     CVImageBufferRef _lastMovieFrame;
 }
 
-- (void)processAsset;
+- (void)processAssetFromTime:(CMTime)time;
 
 @end
 
@@ -170,19 +170,24 @@
 
 - (void)startProcessing
 {
+    [self startProcessingFromTime:kCMTimeZero];
+}
+
+- (void)startProcessingFromTime:(CMTime)startTime
+{
     if( self.playerItem ) {
         [self processPlayerItem];
         return;
     }
     if(self.url == nil)
     {
-      [self processAsset];
-      return;
+        [self processAssetFromTime:startTime];
+        return;
     }
     
     if (_shouldRepeat) keepLooping = YES;
     
-    previousFrameTime = kCMTimeZero;
+    previousFrameTime = startTime;
     previousActualFrameTime = CFAbsoluteTimeGetCurrent();
   
     NSDictionary *inputOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
@@ -199,10 +204,20 @@
                 return;
             }
             blockSelf.asset = inputAsset;
-            [blockSelf processAsset];
+            [blockSelf processAssetFromTime:startTime];
             blockSelf = nil;
         });
     }];
+}
+
+- (void)pauseProcessing
+{
+    [reader cancelReading];
+}
+
+- (void)resumeProcessing
+{
+    [self startProcessingFromTime:previousFrameTime];
 }
 
 - (AVAssetReader*)createAssetReader
@@ -234,9 +249,10 @@
     return assetReader;
 }
 
-- (void)processAsset
+- (void)processAssetFromTime:(CMTime)time
 {
     reader = [self createAssetReader];
+    reader.timeRange = CMTimeRangeMake(time, reader.asset.duration);
 
     AVAssetReaderOutput *readerVideoTrackOutput = nil;
     AVAssetReaderOutput *readerAudioTrackOutput = nil;
@@ -286,9 +302,7 @@
         }
 
         if (reader.status == AVAssetWriterStatusCompleted) {
-                
-            [reader cancelReading];
-
+            
             if (keepLooping) {
                 reader = nil;
                 dispatch_async(dispatch_get_main_queue(), ^{
