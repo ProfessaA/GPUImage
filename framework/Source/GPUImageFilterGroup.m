@@ -19,6 +19,15 @@
     return self;
 }
 
+- (void)setPreventRendering:(BOOL)preventRendering
+{
+    for (GPUImageOutput *filter in filters) {
+        if ([filter respondsToSelector:@selector(setPreventRendering:)]) {
+            [(id)filter setPreventRendering:preventRendering];
+        }
+    }
+}
+
 #pragma mark -
 #pragma mark Filter management
 
