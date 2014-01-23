@@ -21,6 +21,7 @@
 
 - (void)setPreventRendering:(BOOL)preventRendering
 {
+    _preventRendering = preventRendering;
     for (GPUImageOutput *filter in filters) {
         if ([filter respondsToSelector:@selector(setPreventRendering:)]) {
             [(id)filter setPreventRendering:preventRendering];
