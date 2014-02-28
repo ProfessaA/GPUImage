@@ -255,6 +255,7 @@
 - (void)processAssetFromTime:(CMTime)time
 {
     reader = [self createAssetReader];
+    if ([self.delegate respondsToSelector:@selector(isPreparingMovie:)]) [self.delegate isPreparingMovie:self];
     reader.timeRange = CMTimeRangeMake(time, reader.asset.duration);
 
     AVAssetReaderOutput *readerVideoTrackOutput = nil;

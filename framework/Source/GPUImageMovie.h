@@ -60,6 +60,7 @@
 - (void)didCompletePlayingMovie:(GPUImageMovie *)movie;
 
 @optional
+- (void)isPreparingMovie:(GPUImageMovie *)movie;
 - (void)didProcessFrame:(GPUImageMovie *)movie;
 - (void)willStartPlayingMovie:(GPUImageMovie *)movie;
 
